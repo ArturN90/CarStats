@@ -16,4 +16,5 @@ python setup.py install
   a) example input  
   b) supporting new brwoser  
   c) new features for stats
+  d) remodel scraping???
       
