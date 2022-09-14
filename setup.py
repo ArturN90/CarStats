@@ -15,7 +15,7 @@ setup(
     version = "0.0.1",
     author = "Artur Nowak",
     keywords = "Carstats, car statistic",
-    long_description=read('README'),
+    long_description=read('README.md'),
     package_dir={"": "src"},                                                    
     packages=find_packages("src"), 
     install_requires=reqs,
