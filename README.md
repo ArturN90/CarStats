@@ -15,6 +15,6 @@ python setup.py install
 #### 3. Coming soon:  
   a) example input  
   b) supporting new brwoser  
-  c) new features for stats
+  c) new features for stats  
   d) remodel scraping???
       
