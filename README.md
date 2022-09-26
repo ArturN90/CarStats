@@ -14,7 +14,7 @@ A simple tool to make some statistic based on the data scraped from otomoto.pl.
 python setup.py install
 ~~~  
 #### 3. Coming soon:  
-  a) example input  
+  a) example input  -done
   b) supporting new brwoser  
   c) new features for stats  
   d) remodel scraping???
