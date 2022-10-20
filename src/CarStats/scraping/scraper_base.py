@@ -1,17 +1,15 @@
 #!/usr/bin/python3
-import re
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver import Firefox
-from selenium.webdriver.common.by import By
+"""to update"""
+from abc import ABC, abstractmethod
 
+import re
 from CarStats.log import log
 
 
-class Scrap:
-    """class to scrap data from otomoto"""
+class Scrap(ABC):
+    """Base class to scrap data from otomoto"""
 
-    def __init__(self, executable_path='./../drivers/geckodriver'):
+    def __init__(self, executable_path="./../drivers/geckodriver"):
         """ init func"""
 
         if not isinstance(executable_path, str):
@@ -71,39 +69,19 @@ class Scrap:
     def browser(self, new):
         self._browser = new
 
-    def open_browser(self):
-        """Start scrap session"""
-        self.browser = Firefox(executable_path=self.path)  # lub ./geckodriver.exe
-        self.browser.get("https://www.otomoto.pl/osobowe")
-        self.browser.implicitly_wait(10)
-        self.browser.find_element(By.ID, "onetrust-accept-btn-handler").click()
-        self.browser.maximize_window()
-
     def close_browser(self):
         """End scrap session"""
         return self.browser.close()
 
-    def load_brands(self):
-        """Load all possible brands"""
-        wait = WebDriverWait(self.browser, 20)
-        wait.until(
-            EC.visibility_of_element_located(
-                (
-                    By.XPATH,
-                    "/html/body/div[1]/div/div/div/div[2]/div[1]/form/section/div/div[2]/div/div/input",
-                )
-            )
-        ).click()
-        brands = wait.until(
-            EC.visibility_of_element_located(
-                (
-                    By.XPATH,
-                    "/html/body/div[1]/div/div/div/div[2]/div[1]/form/section/div/div[2]/div/ul",
-                )
-            )
-        )
-        return brands.text
+    @abstractmethod
+    def open_browser(self):
+        """Start scrap session"""
 
+    @abstractmethod
+    def load_data(self):
+        """Load all possible brands"""
+
+    @abstractmethod
     def dataset(self):
         """Scraps:
         1) All Offers (for all brands or for selected brand)
@@ -111,16 +89,10 @@ class Scrap:
         3) New-cars Offers (for all brands or for selected brand)
 
         """
-        browser = self.browser
-        all_offers = browser.find_element("css selector", ".ooa-17fz4xg").text
-        all_offers = int(re.sub("[^0-9]", "", all_offers))
 
-        new_offers = browser.find_element(
-            "css selector", "a.ooa-1fh9wzo:nth-child(3)"
-        ).text
-        new_offers = int(re.sub("[^0-9]", "", new_offers))
-
-        return (all_offers, all_offers - new_offers, new_offers)
+    @abstractmethod
+    def create_data_bank(self, brands_list, amounts_list):
+        """collect data"""
 
     @staticmethod
     def clear_strings_in_list(string, option="str"):
@@ -149,18 +121,6 @@ class Scrap:
 
         return formated_list
 
-    def create_data_bank(self, brands_list, amounts_list):
-
-        # self._models_mean_prices = dict.fromkeys(brand_, [])
-
-        for ind, item in enumerate(brands_list):
-            self.data_bank[f"{item}"] = {"brand_offers": amounts_list[ind]}
-
-        # self.data_bank.update({"General":{"all_offers": self.all_offers}})
-        # self.data_bank["General"].update({"used_cars": self.used_cars})
-        # self.data_bank["General"].update({"new_cars": self.new_cars})
-
-
     def __call__(self, **kwargs):
         #
         # Starting!
@@ -168,11 +128,12 @@ class Scrap:
         log()
         #
         self.open_browser()
-        brands = self.load_brands()
-        brands_list = Scrap.clear_strings_in_list(brands)
-        amounts_list = Scrap.clear_strings_in_list(brands, option="int")
-        self.all_offers, self.used_cars, self.new_cars = self.dataset()
+        data = self.load_data()
+        name_list = Scrap.clear_strings_in_list(data)
+        amounts_list = Scrap.clear_strings_in_list(data, option="int")
+        # FIXME
+        # self.all_offers, self.used_cars, self.new_cars = self.dataset()
 
-        self.create_data_bank(brands_list, amounts_list)
+        self.create_data_bank(name_list, amounts_list)
         self.close_browser()
         return self.data_bank

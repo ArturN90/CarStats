@@ -1,4 +1,4 @@
-from CarStats.scraping.scraper import Scrap
+from CarStats.scraping.scraper_brands import ScrapBrands
 from CarStats.stats.tools import Stats
 
 ################################################################################
@@ -7,7 +7,7 @@ from CarStats.stats.tools import Stats
 #
 #
 #Scraps data and build the dict data
-scraping=Scrap()
+scraping=ScrapBrands()
 scrap_=scraping()
 ################################################################################
 ################################################################################
