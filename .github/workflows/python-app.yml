@@ -37,3 +37,6 @@ jobs:
     - name: Test with pytest
       run: |
         pytest
+    - name: Analysing the code with pylint
+      run: |
+        python lint.py $(git ls-files '*.py') --threshold 8
