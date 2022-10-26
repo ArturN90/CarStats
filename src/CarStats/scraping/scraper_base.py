@@ -1,9 +1,11 @@
 #!/usr/bin/python3
+
 """to update"""
 from abc import ABC, abstractmethod
 
 import re
 from CarStats.log import log
+from CarStats.utilites.utils import export_to_json, dump
 
 
 class Scrap(ABC):
@@ -111,7 +113,7 @@ class Scrap(ABC):
 
         for index in cleared_list:
             if option in ["str"]:
-                formated_list.append(re.sub("[^a-z^A-Z]", " ", index).strip())
+                formated_list.append(re.sub("[^a-ż^A-Ż]", " ", index).strip())
             if option in ["int"]:
                 formated_list.append(re.sub("[^0-9]", "", index))
 
@@ -136,4 +138,6 @@ class Scrap(ABC):
 
         self.create_data_bank(name_list, amounts_list)
         self.close_browser()
+        dump(export_to_json(self.data_bank),"scraped_data.json")
+
         return self.data_bank

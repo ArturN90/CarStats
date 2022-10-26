@@ -23,7 +23,7 @@ class ScrapBrands(Scrap):
 
     def load_data(self):
         """Load all possible brands"""
-        wait = WebDriverWait(self.browser, 20)
+        wait = WebDriverWait(self.browser, 10)
         wait.until(
             EC.visibility_of_element_located(
                 (
