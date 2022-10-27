@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-
+"""
+to update
+"""
 from functools import reduce
 from CarStats.utilites.utils import check
-from CarStats.log import log
 
 
 class Stats:
@@ -39,13 +40,13 @@ class Stats:
             self._statistic = new
         else:
             self._statistic = "basic"
-    
+
     @property
     def archive(self):
         """Makes a decision:
-            *True: make a achrive
-            *False: no adding data to archive
-            
+        *True: make a achrive
+        *False: no adding data to archive
+
         """
         return self._archive
 
@@ -91,6 +92,7 @@ class Stats:
         return sorted(values, key=values.get, reverse=True)[:3]
 
     def mean_prices(self):
+        """to update"""
         cars = self.car_brands
         for name in cars:
             ratio = []
@@ -113,18 +115,25 @@ class Stats:
         brands = self.top3_amount()
         print("Top 3 numbers of offers", brands)
         print("\nSpecifically...")
-        print(brands[0], "with", self.car_brands[f"{brands[0]}"]["brand_offers"], "offers")
-        print(brands[1], "with", self.car_brands[f"{brands[1]}"]["brand_offers"], "offers")
-        print(brands[2], "with", self.car_brands[f"{brands[2]}"]["brand_offers"], "offers")
+        print(
+            brands[0], "with", self.car_brands[f"{brands[0]}"]["brand_offers"], "offers"
+        )
+        print(
+            brands[1], "with", self.car_brands[f"{brands[1]}"]["brand_offers"], "offers"
+        )
+        print(
+            brands[2], "with", self.car_brands[f"{brands[2]}"]["brand_offers"], "offers"
+        )
 
     def extra_stats(self):
+        """to do"""
         raise NotImplementedError
 
     def __call__(self, **kwargs):
         #
         # Starting!
         #
-        #log()
+        # log()
         #
         # Read input:
         #
@@ -142,4 +151,3 @@ class Stats:
         if self.archive:
             print("Data is stored ...")
             raise NotImplementedError
-        

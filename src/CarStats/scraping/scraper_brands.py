@@ -11,6 +11,7 @@ from CarStats.scraping.scraper_base import Scrap
 
 
 class ScrapBrands(Scrap):
+    # pylint: disable=C0301
     """Scraps basic info from otomoto"""
 
     def open_browser(self):

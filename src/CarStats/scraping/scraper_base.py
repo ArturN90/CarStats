@@ -124,6 +124,8 @@ class Scrap(ABC):
         return formated_list
 
     def __call__(self, **kwargs):
+        # pylint: disable=W0511
+
         #
         # Starting!
         #
